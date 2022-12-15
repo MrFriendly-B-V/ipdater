@@ -1,12 +1,13 @@
-use std::path::{Path, PathBuf};
 use color_eyre::eyre::{Error, Result};
 use serde::{Deserialize, Serialize};
+use std::path::{Path, PathBuf};
 use tokio::fs;
 use tokio::io::{AsyncReadExt, AsyncWriteExt};
 
 #[derive(Deserialize, Serialize)]
 pub struct Config {
-    pub zones: Vec<ZoneConfig>
+    pub zones: Vec<ZoneConfig>,
+    pub ipserver: String,
 }
 
 #[derive(Deserialize, Serialize)]
@@ -33,7 +34,9 @@ impl Config {
             let mut f = fs::File::create(&file_path).await?;
             f.write_all(&ser).await?;
 
-            return Err(Error::msg("No config file exists, a default has been generated".into()));
+            return Err(Error::msg(
+                "No config file exists, a default has been generated".to_string(),
+            ));
         }
 
         Self::open_with_path(&file_path).await
@@ -41,23 +44,21 @@ impl Config {
 
     fn example() -> Self {
         Self {
-            zones: vec![
-                ZoneConfig {
-                    credentials: ZoneAuth {
-                        key: "my_example_key".into(),
-                    },
-                    domains: vec![
-                        "example.com".into(),
-                        "foo.example.com".into()
-                    ]
-                }
-            ]
+            zones: vec![ZoneConfig {
+                credentials: ZoneAuth {
+                    key: "my_example_key".into(),
+                },
+                domains: vec!["example.com".into(), "foo.example.com".into()],
+            }],
+            ipserver: "icanhazip.com".into(),
         }
     }
 
     pub async fn open_with_path(path: &Path) -> Result<Self> {
         if !path.exists() {
-            return Err(Error::msg(format!("Config file at {path:?} does not exist")));
+            return Err(Error::msg(format!(
+                "Config file at {path:?} does not exist"
+            )));
         }
 
         let mut f = fs::File::open(path).await?;

@@ -1,10 +1,10 @@
-use std::path::PathBuf;
 use clap::Parser;
+use std::path::PathBuf;
 
-#[derive(Debug, Parser)]
+#[derive(Debug, Parser, Clone)]
 pub struct Args {
     #[clap(short, long)]
     pub config: Option<PathBuf>,
-    #[clap(short, long)]
-    pub storage_dir: Option<PathBuf>
+    #[clap(long)]
+    pub dry_run: bool,
 }

@@ -1,0 +1,13 @@
+{
+  "zones": [
+    {
+      "domains": [
+        "foo.array21.dev"
+      ],
+      "credentials": {
+        "key": "gugL5bBkYtEw9VVb20QLCGfIic35jSJXgdcqz0E8"
+      }
+    }
+  ],
+  "ipserver": "https://icanhazip.com"
+}
