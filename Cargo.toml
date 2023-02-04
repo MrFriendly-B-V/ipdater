@@ -11,7 +11,7 @@ dwbhk = "0.1.2"
 reqwest = { version = "0.11.13", features = ["json"] }
 serde = { version = "1.0.150", features = ["derive"] }
 serde_json = "1.0.89"
-tokio = { version = "1.23.0", features = ["full"] }
+tokio = { version = "1.24.2", features = ["full"] }
 toml = "0.5.9"
 tracing = "0.1.37"
 tracing-subscriber = { version = "0.3.16", features = ["env-filter"] }
